@@ -8,7 +8,10 @@ public class CameraLockEvent : MonoBehaviour
     public GameObject buttonPrompt;
     public GameObject textPrompt;
     public Camera playerCam;
-    public Transform player;
+    public Camera checkoutCam;
+    public Transform playerBody;
+
+    public GameObject player;
 
     MouseLook mouseScript;
     PlayerMovement movementScript;
@@ -18,12 +21,20 @@ public class CameraLockEvent : MonoBehaviour
     //public GameObject player;
     //public GameObject baggingCam;
 
+    private void Start()
+    {
+        checkoutCam.enabled = false;
+        playerCam.enabled = true;
+
+        altMouse.enabled = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
         distance = PlayerCasting.distanceFromTarget;
         mouseScript = playerCam.GetComponent<MouseLook>();
-        movementScript = player.GetComponent<PlayerMovement>();
+        movementScript = playerBody.GetComponent<PlayerMovement>();
         altMouse = playerCam.GetComponent<AltMouseLook>();
     }
 
@@ -43,6 +54,9 @@ public class CameraLockEvent : MonoBehaviour
                     inCheckout = false;
                     buttonPrompt.SetActive(false);
                     textPrompt.SetActive(false);
+                    playerCam.enabled = true;
+                    checkoutCam.enabled = false;
+                    player.SetActive(true);
                     altMouse.enabled = false;
                     movementScript.enabled = true;
                     mouseScript.enabled = true;
@@ -73,10 +87,15 @@ public class CameraLockEvent : MonoBehaviour
                 movementScript.enabled = false;
 
                 Vector3 pos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z - 1f);
-                player.position = pos;
+                playerBody.position = pos;
                 
+
+                
+                checkoutCam.enabled = true;
+                playerCam.enabled = false;
                 altMouse.enabled = true;
                 mouseScript.enabled = false;
+                player.SetActive(false);
                 Debug.Log("In checkout lane");
                 //baggingCam.SetActive(true);
                 //player.SetActive(false);
