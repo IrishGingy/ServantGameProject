@@ -7,6 +7,8 @@ TagManager:
   - Employee
   - Customer
   - Item
+  - Door
+  - Interact
   layers:
   - Default
   - TransparentFX
